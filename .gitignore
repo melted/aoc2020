@@ -1,0 +1,8 @@
+*.dll
+*.exe
+*.obj
+*.o
+
+bin/
+obj/
+.ionide
