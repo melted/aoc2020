@@ -1,4 +1,4 @@
-﻿namespace utils
+﻿namespace Utils
 
 open System
 open System.IO
