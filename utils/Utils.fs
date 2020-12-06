@@ -8,3 +8,4 @@ module IO =
         use f = File.OpenText file
         let content = f.ReadToEnd()
         content.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+    let split (on : string) (str : string) = str.Split(on, StringSplitOptions.RemoveEmptyEntries)

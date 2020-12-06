@@ -1,15 +1,12 @@
+open System
 open System.IO
 
 let data =
-    let handle s l =
-        let (x, xs) = match s with 
-                        | [] -> ([] ,[])
-                        | x::xs -> (x, xs)
-        if l = "" then []::x::xs else (l::x)::xs
-    File.ReadAllLines "../data/input6.txt" |> Array.fold handle []
+    let split (on : string) (str : string) = str.Split(on, StringSplitOptions.RemoveEmptyEntries)
+    File.ReadAllText "../data/input6.txt" |> split "\n\n" |> Array.map (split "\n")
 
-let countUnique l = List.map Set.ofSeq l |> Set.unionMany |> Set.count
+let countUnique l = Array.map Set.ofSeq l |> Set.unionMany |> Set.count
 printfn $"{Seq.sumBy countUnique data}"
 
-let countCommon l = List.map Set.ofSeq l |> Set.intersectMany |> Set.count
+let countCommon l = Array.map Set.ofSeq l |> Set.intersectMany |> Set.count
 printfn $"{Seq.sumBy countCommon data}"
