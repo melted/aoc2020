@@ -13,23 +13,13 @@ let data = File.ReadAllLines "../data/input7.txt" |> Array.fold parseData Map.em
 
 let target = "shiny gold"
 
-let rec findGoldBag state s =
-    match Map.tryFind s state with
-        | Some b -> state
-        | None -> if s = target 
-                    then Map.add s true state
-                    else 
-                        let children = Seq.map snd (Map.find s data)
-                        if Seq.length children = 0
-                            then Map.add s false state
-                            else 
-                                let newState = Seq.fold (fun st n -> enumerate st n) state children
-                                Map.add s (Seq.exists (fun ch -> Map.find ch newState) children) newState
+let rec findGoldBag t =
+    let children = Map.find t data
+    Seq.fold (fun st (_, n) -> st || n = target || findGoldBag n) false children
 
-let res = Map.toSeq data |> Seq.map fst |> Seq.fold enumerate Map.empty 
-            |> Map.filter (fun k v -> v) |> Map.count
+let res = Map.toSeq data |> Seq.map fst |> Seq.filter findGoldBag |> Seq.length
 
-printfn $"{res-1}"
+printfn $"{res}"
 
 let rec count t =
     let children = Map.find t data
