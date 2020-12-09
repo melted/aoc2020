@@ -12,17 +12,13 @@ let target = Seq.find lacksSum windows |> fun w -> w.[25]
 printfn $"{target}"
 
 let findRange target =
-    let mutable lo = 0
-    let mutable hi = 1
-    let mutable found = false
-    while not found do
-        let s = Seq.sum data.[lo..hi]
-        if s = target 
-            then found <- true
-            else if s > target
-                then lo <- lo + 1
-                else hi <- hi + 1
-    Seq.min data.[lo..hi] + Seq.max data.[lo..hi]
+    let rec worker lo hi sum =
+        if sum = target
+            then Seq.min data.[lo..hi] + Seq.max data.[lo..hi]
+            else if sum > target
+                then worker (lo + 1) hi (sum - data.[lo])
+                else worker lo (hi + 1) (sum + data.[hi + 1])
+    worker 0 0 data.[0]
 
 let res = findRange target
 printfn $"{res}"
