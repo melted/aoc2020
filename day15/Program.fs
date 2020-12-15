@@ -6,9 +6,9 @@ let data = [6; 4; 12; 1; 20; 0; 16]
 let play target start =
     let dict = Dictionary ()
     let init = Seq.zip start [1..List.length start-1]
-    Seq.iter (fun (k, t) -> dict.[k] <- t) init
+    for (k, t) in init do dict.[k] <- t
     let rec worker i last =
-        if i = target 
+        if i = target
             then last
             else
                 let next = if dict.ContainsKey last then i - dict.[last] else 0
