@@ -40,3 +40,4 @@ let mapping =
     sift [] candidates |> List.sort
 
 for (_,b) in mapping do printf $"{Set.minElement b},"
+ 
